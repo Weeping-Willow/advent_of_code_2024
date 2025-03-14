@@ -63,7 +63,9 @@ pub fn main() !void {
     std.mem.sort(i32, second_row, {}, comptime std.sort.asc(i32));
 
     var diff: i32 = 0;
+    var similarity: i32 = 0;
     for (first_row, 0..) |row, i| {
+        similarity += count(row, second_row) * row;
         var local_diff = row - second_row[i];
         if (local_diff < 0) {
             local_diff *= -1;
@@ -73,6 +75,17 @@ pub fn main() !void {
     }
 
     std.debug.print("Diff: {}\n", .{diff});
+    std.debug.print("Similarity: {}\n", .{similarity});
+}
+
+fn count(needle: i32, haystack: []i32) i32 {
+    var count_of_needle: i32 = 0;
+    for (haystack) |item| {
+        if (item == needle) {
+            count_of_needle += 1;
+        }
+    }
+    return count_of_needle;
 }
 
 const std = @import("std");

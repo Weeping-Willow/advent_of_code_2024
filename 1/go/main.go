@@ -39,7 +39,9 @@ func main() {
 	sort.Ints(rowB)
 
 	diff := 0
+	similarityScore := 0
 	for i, a := range rowA {
+		similarityScore += a * findCountOf(a, rowB)
 		b := rowB[i]
 
 		tempDiff := a - b
@@ -50,5 +52,18 @@ func main() {
 		diff += tempDiff
 	}
 
-	println(diff)
+	println("diff score", diff)
+	println("similarity score", similarityScore)
+}
+
+func findCountOf(num int, arr []int) int {
+	count := 0
+
+	for _, val := range arr {
+		if val == num {
+			count++
+		}
+	}
+
+	return count
 }
