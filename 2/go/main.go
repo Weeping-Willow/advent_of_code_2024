@@ -8,6 +8,16 @@ import (
 )
 
 func main() {
+	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+	b := remove(a, 4)
+	c := remove(a, 0)
+	g := remove(a, len(a)-1)
+	fmt.Println("Original slice:", a)
+	fmt.Println("Slice after removal:", b)
+	fmt.Println("Slice after removal:", c)
+	fmt.Println("Slice after removal:", g)
+
 	d, err := os.ReadFile("./input.txt")
 	if err != nil {
 		panic(err)
@@ -37,13 +47,34 @@ func main() {
 	}
 
 	count := 0
+	countWithLooserRules := 0
 	for _, row := range rows {
-		if validRow(row) {
+		initialSafety := validRow(row)
+		if initialSafety {
 			count++
+			countWithLooserRules++
+			continue
+		}
+
+		for i := 0; i < len(row); i++ {
+			newRow := remove(row, i)
+			safe := validRow(newRow)
+			if safe {
+				countWithLooserRules++
+				break
+			}
 		}
 	}
 
 	fmt.Println("Valid rows:", count)
+	fmt.Println("Valid rows with looser rules:", countWithLooserRules)
+	fmt.Println("Total rows:", len(rows))
+}
+
+func remove(slice []int, s int) []int {
+	newSlice := make([]int, len(slice))
+	copy(newSlice, slice)
+	return append(newSlice[:s], newSlice[s+1:]...)
 }
 
 func validRow(row []int) bool {
