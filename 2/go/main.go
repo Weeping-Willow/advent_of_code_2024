@@ -8,16 +8,6 @@ import (
 )
 
 func main() {
-	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-
-	b := remove(a, 4)
-	c := remove(a, 0)
-	g := remove(a, len(a)-1)
-	fmt.Println("Original slice:", a)
-	fmt.Println("Slice after removal:", b)
-	fmt.Println("Slice after removal:", c)
-	fmt.Println("Slice after removal:", g)
-
 	d, err := os.ReadFile("./input.txt")
 	if err != nil {
 		panic(err)
